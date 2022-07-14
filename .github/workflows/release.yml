@@ -6,7 +6,7 @@ on:
       - "*"
 
 env:
-  PLUGIN_NAME: obsidian-hard-breaks
+  PLUGIN_NAME: hard-breaks
 
 jobs:
   build:
