@@ -1,59 +1,104 @@
-import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
+import { App, Editor, MarkdownView, Plugin, PluginSettingTab, Setting } from 'obsidian';
 
-export default class MyPlugin extends Plugin {
-  // This field stores your plugin settings.
-  setting: MyPluginSettings;
+/**
+ * Interface defining the plugins settings
+ */
+interface HardBreaksPluginSettings {
+  hardBreakFormat: string;
+}
 
-  onInit() {}
+// default plugin settings
+const DEFAULT_SETTINGS: HardBreaksPluginSettings = {
+	hardBreakFormat: '  '
+}
+
+// pattern for recognizing soft line breaks
+const LB = / *(?<!(\\|\n))\n/g
+
+/**
+ * Class representing the plugin
+ */
+export default class HardBreaksPlugin extends Plugin {
+
+  settings: HardBreaksPluginSettings;
 
   async onload() {
-    console.log("Plugin is Loading...");
+    console.log('hard-breaks plugin loading...');
 
-    // This snippet of code is used to load pluging settings from disk (if any)
-    // and then add the setting tab in the Obsidian Settings panel.
-    // If your plugin does not use settings, you can delete these two lines.
-    this.setting = (await this.loadData()) || {
-      someConfigData: 1,
-      anotherConfigData: "defaultValue",
-    };
-    this.addSettingTab(new MyPluginSettingsTab(this.app, this));
+    // load pluging settings
+    await this.loadSettings();
+
+    // add settings tab to Obsidian settings panel
+    this.addSettingTab(new PluginSettingsTab(this.app, this));
+
+		// add command to replace all soft breaks in the current document with hard breaks
+		this.addCommand({
+			id: 'replace-all-soft-breaks',
+			name: 'Replace all soft breaks with hard breaks',
+			editorCallback: (editor: Editor, view: MarkdownView) => {
+        // if nothing is selected, select all text in the editor
+        editor.somethingSelected() || this.selectAll(editor)
+        // replace line breaks in selection
+				editor.replaceSelection(
+          editor.getSelection().replace(LB, `${this.settings.hardBreakFormat}\n`)
+        )
+			}
+		});
+  }
+
+  /**
+   * Selects all text in the editor
+   * @param editor editor instance
+   */
+  selectAll(editor: Editor) {
+    editor.setSelection(
+      { line: 0, ch: 0 },
+      {
+        line: editor.lastLine(),
+        ch: editor.getLine(editor.lastLine()).length - 1
+      }
+    )
   }
 
   onunload() {
-    console.log("Plugin is Unloading...");
+    console.log('hard-breaks plugin unloading...');
   }
+
+  async loadSettings() {
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+	}
+
+	async saveSettings() {
+		await this.saveData(this.settings);
+	}
 }
+
 
 /**
- * This is a data class that contains your plugin configurations. You can edit it
- * as you wish by adding fields and all the data you need.
+ * Class representing plugin settings tab
  */
-interface MyPluginSettings {
-  someConfigData: number;
-  anotherConfigData: string;
-}
+class PluginSettingsTab extends PluginSettingTab {
+  plugin: HardBreaksPlugin;
 
-class MyPluginSettingsTab extends PluginSettingTab {
-  plugin: MyPlugin;
-
-  constructor(app: App, plugin: MyPlugin) {
+  constructor(app: App, plugin: HardBreaksPlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
 
   display(): void {
     const { containerEl } = this;
-    const settings = this.plugin.setting;
+    containerEl.empty();
+    
+    const settings = this.plugin.settings;
+
     // This is just an example of a setting controll.
     new Setting(containerEl)
-      .setName("Setting Name")
-      .setDesc("Setting description")
+      .setName('Hard Break Format')
+      .setDesc('The format of hard breaks to use')
       .addText((text) =>
-        text.setValue(String(settings.someConfigData)).onChange((value) => {
-          if (!isNaN(Number(value))) {
-            settings.someConfigData = Number(value);
-            this.plugin.saveData(settings);
-          }
+        text.setValue(String(settings.hardBreakFormat)).onChange(async (value) => {
+          settings.hardBreakFormat = String(value);
+          await this.plugin.saveSettings();
         })
       );
   }
