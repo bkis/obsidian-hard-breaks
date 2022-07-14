@@ -2,7 +2,7 @@
   "name": "hard-breaks",
   "author": "bkis",
   "version": "0.0.1",
-  "description": "Turn soft line breaks in Markdown into hard line breaks automatically.",
+  "description": "Turn soft line breaks in Markdown into hard line breaks automatically",
   "main": "main.js",
   "scripts": {
     "dev": "rollup --config rollup.config.js -w",

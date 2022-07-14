@@ -1,7 +1,11 @@
 {
-  "id": "your-obsidian-plugin",
-  "name": "Obsidian Plugin Template",
-  "description": "A Simple Template for Plugins",
+  "id": "hard-breaks",
+  "name": "Hard Breaks",
+  "description": "Turn soft line breaks in Markdown into hard line breaks automatically",
+  "version": "0.0.1",
+	"minAppVersion": "0.12.0",
+	"author": "bkis",
+	"authorUrl": "https://github.com/bkis/obsidian-hard-breaks",
   "isDesktopOnly": false,
   "js": "main.js"
 }
