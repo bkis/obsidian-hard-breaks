@@ -4,10 +4,12 @@ type HardBreakFormat = 'spaces' | 'backslash'
 
 interface HardBreaksPluginSettings {
   format: HardBreakFormat
+  onTheFly: boolean
 }
 
 const DEFAULT_SETTINGS: HardBreaksPluginSettings = {
-	format: 'spaces'
+	format: 'spaces',
+  onTheFly: true
 }
 
 // hard line breaks profiles
@@ -51,27 +53,40 @@ export default class HardBreaksPlugin extends Plugin {
 			}
 		});
 
-    // register editor change event
+    // register editor change event...
+    // it would be nice to only register this event listener if the
+    // "on the fly" setting is activated - unfortunately the Obsidian API
+    // doesn't seem to offer an event for a change in the plugin settings :(
     this.registerEvent(this.app.workspace.on('editor-change', (editor, markdownView) => {
-      // check if this event was triggered by this plugin itself
-      if (this.lastChangeByPlugin){
-        this.lastChangeByPlugin = false
-        return
-      }
-      const cursor = editor.getCursor() // get current cursor position
-      // check if the edit was a line break into a fresh line (not indented or prefixed)
-      if (cursor && cursor.ch === 0 && cursor.line > 0){
-        // get content of previous line
-        let prevLine = editor.getLine(cursor.line - 1)
-        // cancel if previous line is empty
-        if (prevLine.length === 0) return
-        // replace soft break with hard break
-        prevLine = this.replaceSoftBreaks(prevLine)
-        // remember that we are the ones changing the editor here
-        this.lastChangeByPlugin = true
-        editor.setLine(cursor.line - 1, prevLine)
-      }
+      this.settings.onTheFly && this.processEditorChange(editor)
     }))
+  }
+
+  /**
+   * Checks if the last change in the editor qualifies for a line break
+   * replacing operation. If so, the previous line will be altered accordingly. 
+   * @param editor The editor instance the plugin got from the change event
+   * @returns sweet FA
+   */
+  processEditorChange(editor: Editor): void {
+    // check if this event was triggered by this plugin itself
+    if (this.lastChangeByPlugin){
+      this.lastChangeByPlugin = false
+      return
+    }
+    const cursor = editor.getCursor() // get current cursor position
+    // check if the edit was a line break into a fresh line (not indented or prefixed)
+    if (cursor && cursor.ch === 0 && cursor.line > 0){
+      // get content of previous line
+      let prevLine = editor.getLine(cursor.line - 1)
+      // cancel if previous line is empty
+      if (prevLine.length === 0) return
+      // replace soft break with hard break
+      prevLine = this.replaceSoftBreaks(prevLine)
+      // remember that we are the ones changing the editor here
+      this.lastChangeByPlugin = true
+      editor.setLine(cursor.line - 1, prevLine)
+    }
   }
 
   replaceSoftBreaks(input: string): string {
