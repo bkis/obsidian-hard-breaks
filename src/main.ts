@@ -53,10 +53,8 @@ export default class HardBreaksPlugin extends Plugin {
 
     // register editor change event
     this.registerEvent(this.app.workspace.on('editor-change', (editor, markdownView) => {
-      console.log("EDITOR CHANGE EVENT")
       // check if this event was triggered by this plugin itself
       if (this.lastChangeByPlugin){
-        console.log('Last change was done by this plugin, exit')
         this.lastChangeByPlugin = false
         return
       }
