@@ -2,6 +2,7 @@
 
 A plugin for [Obsidian](https://obsidian.md/) that brings automatic [*hard* line breaks](https://spec.commonmark.org/0.17/#hard-line-breaks) (while writing) and adds an editor command to replace all [*soft* line breaks](https://spec.commonmark.org/0.17/#soft-line-breaks) in a document with hard line breaks.
 
+- [Features](#features)
 - [Do I need this plugin?](#do-i-need-this-plugin)
 - [What are soft vs. hard line breaks?](#what-are-soft-vs-hard-line-breaks)
 - [Why automatic hard line breaks?](#why-automatic-hard-line-breaks)
@@ -11,6 +12,17 @@ A plugin for [Obsidian](https://obsidian.md/) that brings automatic [*hard* line
 - [Acknowledgements](#acknowledgements)
 
 
+## Features
+
+This plugin gives you
+
+1) a setting to automatically replace *soft* line breaks with *hard* line breaks while writing in the editor
+2) an editor command that replaces all existing *soft* line breaks with *hard* line breaks in the current document
+
+The format of the *hard* line breaks to use for both the on-the-fly replacing and the editor commend can be changed in the settings. The [CommonMark specification](https://spec.commonmark.org/0.17/#hard-line-breaks) allows two whitespaces or a backslash at the end of a line. While the backslash is more visible in the Markdown source, it's less common and somewhat clutters your text. But it's a matter of preference...
+
+![screenshot of plugin settings](doc/screen_settings.png)
+
 
 ## Do I need this plugin?
 
@@ -18,11 +30,13 @@ Maybe. Maybe not. If you already know the [difference between soft and hard line
 
 Long story short: If you...
 
-- ... need actual line breaks (e.g. for writing Poems)-
-- ... never use *soft* line breaks in Obsidian (because [why should you?](#why-automatic-hard-line-breaks))
-- ... don't want to type *hard* line breaks manually but still want portable Markdown documents
+- ... need actual line breaks inside of paragraphs (e.g. for writing Poems...)
+- ... never intentionally use *soft* line breaks in Obsidian anyway (because [why should you?](#why-automatic-hard-line-breaks))
+- ... don't want to type *hard* line breaks manually when you need them but still want portable Markdown documents
 
-..., you might linke this.
+..., you might like this.
+
+If you, for some reason, use *soft* line breaks (that only exist in editing, never in "Reading" mode or any other parsed and rendered version like HTML) a lot, this plugin may not be for you.
 
 
 ## What are soft vs. hard line breaks?
@@ -65,7 +79,7 @@ Why should one use *soft* line breaks at all? They don't make any difference in 
 
 But Obsidian is **not** such an environment. It wraps text. The editor has a nice, reduced width. **There is no need for soft line breaks in Obsidian.**
 
-Obsidian has a setting called "Strict line breaks". If you turn it off, it makes *soft* line breaks visible as actual line breaks in "Reading Mode". It renders them as if they were *hard* line breaks. That's a nice feature for its convenience, but try giving the Haiku you wrote in Obsidian without manually adding *hard* line breaks ...
+Obsidian has a setting called "Strict line breaks". If you turn it off, Obsidian stops distinguishing *soft* and *hard* line breaks in "Reading" mode and displays anything as a *hard* line break. That's a nice feature for its convenience, but it's also a false view on your document as it doesn't follow the Markdown specification. Try giving the Haiku you wrote in Obsidian without using *hard* line breaks ...
 
 ```md
 An ancient pond!
@@ -73,11 +87,11 @@ With a sound from the water
 Of the frog as it plunges in.
 ```
 
-... to a friend who uses a software that strictly obeys the [CommonMark specification](https://spec.commonmark.org) (like Obsidian with "Strict line breaks" in "Reading View"). Your Haiku will look like this:
+... to a friend who uses a software that strictly obeys the [CommonMark specification](https://spec.commonmark.org). Your Haiku will look like this:
 
 > An ancient pond! With a sound from the water Of the frog as it plunges in.
 
-You need hard line breaks to write actual Markdown in such cases. But typing two whitespaces at the end of each line just to get an actual line break isn't fun for everyone. Especially if you *never need soft line breaks* for the reasons mentioned above.
+You need hard line breaks to write actual Markdown in such cases. If you want a line break inside of a paragraph in Markdown, you have to use a *hard* line break. Otherwise your document isn't really portable to other Markdown platforms. But remembering to type two whitespaces at the end of a line just to get a line break isn't fun. Especially if you *never need soft line breaks* anyway.
 
 
 ## Installation
