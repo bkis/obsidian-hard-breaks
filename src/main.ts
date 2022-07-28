@@ -88,7 +88,7 @@ class HardBreaksPluginSettingsTab extends PluginSettingTab {
       .setName('Hard Line Break Format')
       .setDesc('The type of Markdown notation to use for hard line breaks')
       .addDropdown((dd) => {
-        dd.addOption('  ', 'Double Whitespace (recommended)')
+        dd.addOption('  ', 'Double Whitespace')
         dd.addOption('\\', 'Backslash')
         dd.setValue(settings.hardBreakFormat)
         dd.onChange(async (value: string) => {
