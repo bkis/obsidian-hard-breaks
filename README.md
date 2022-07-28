@@ -1,25 +1,27 @@
 # Obsidian Hard Breaks Plugin <!-- omit in toc -->
 
-A plugin for [Obsidian](https://obsidian.md/) that brings automatic [*hard* line breaks](https://spec.commonmark.org/0.17/#hard-line-breaks) (while writing) and adds an editor command to replace all [*soft* line breaks](https://spec.commonmark.org/0.17/#soft-line-breaks) in a document with hard line breaks.
+A plugin for [Obsidian](https://obsidian.md/) that adds an editor command to force [*hard* line breaks](https://spec.commonmark.org/0.17/#hard-line-breaks) (in contrast to [*soft* line breaks](https://spec.commonmark.org/0.17/#soft-line-breaks)) in the currently opened document. It makes use of [a set of robust Open-Source Markown parsing tools](#acknowledgements) to guarantee it does what it's supposed to do.
 
 - [Features](#features)
 - [Do I need this plugin?](#do-i-need-this-plugin)
 - [What are soft vs. hard line breaks?](#what-are-soft-vs-hard-line-breaks)
-- [Why automatic hard line breaks?](#why-automatic-hard-line-breaks)
+- [Why force hard line breaks?](#why-force-hard-line-breaks)
 - [Installation](#installation)
-- [Known Issues](#known-issues)
+- [Thoughts on possible additional features](#thoughts-on-possible-additional-features)
+  - [Automatic on-the-fly hard breaks](#automatic-on-the-fly-hard-breaks)
+  - [Force line breaks in multiple documents](#force-line-breaks-in-multiple-documents)
 - [Development](#development)
 - [Acknowledgements](#acknowledgements)
 
 
 ## Features
 
-This plugin gives you
+This plugin gives you ...
 
-1) a setting to automatically replace *soft* line breaks with *hard* line breaks while writing in the editor
-2) an editor command that replaces all existing *soft* line breaks with *hard* line breaks in the current document
+1) ... an editor command that replaces all line breaks in the current document with *hard* line breaks (**only in paragraphs of text**, never in code blocks, front matter, etc.).
+2) ... an option in the settings to choose the format for the hard line breaks to use (`  ` or `\`).
 
-The format of the *hard* line breaks to use for both the on-the-fly replacing and the editor commend can be changed in the settings. The [CommonMark specification](https://spec.commonmark.org/0.17/#hard-line-breaks) allows two whitespaces or a backslash at the end of a line. While the backslash is more visible in the Markdown source, it's less common and somewhat clutters your text. But it's a matter of preference...
+> ℹ️ The formats for *hard* line breaks are specified in the [CommonMark specification](https://spec.commonmark.org/0.17/#hard-line-breaks). It allows two whitespaces or a backslash at the end of a line. While the backslash is more visible in the Markdown source, it's less common and somewhat clutters your text. But it's a matter of taste...
 
 ![screenshot of plugin settings](doc/screen_settings.png)
 
@@ -73,7 +75,7 @@ This will be parsed to:
 ... with an *actual* line break.
 
 
-## Why automatic hard line breaks?
+## Why force hard line breaks?
 
 Why should one use *soft* line breaks at all? They don't make any difference in how the document is parsed/rendered. There is only one reason to use them (prove me wrong!): Manually wrapping paragraphs in Markdown source text. This *might* be desirable in an environment where long lines aren't wrapped automatically (e.g. in a shell) or where the editor is so wide that the long lines become hard to read.
 
@@ -102,9 +104,18 @@ There are two ways:
 - Installing the plugin manually (why though?): Unpack the downloaded archive file into Obsidians plugin directory. Warning: You won't get automatic updates this way!
 
 
-## Known Issues
+## Thoughts on possible additional features
 
-- With "Auto Hard Breaks" turned on, hard line breaks are added in place of *every* soft line break (except on empty lines) - *even inside of code blocks* and HTML code! This is not a huge problem, but it's also not pretty.
+### Automatic on-the-fly hard breaks
+
+The very first version of this plugin had a feature to automatically replace soft line breaks with hard line breaks while writing in the editor. This feature, although it was a nice idea, was removed due to the following reasons:
+
+- While writing, it's impossible to detect whether you are inside of a paragraph or an unfinished (non-closed) code block, front matter block or the like.
+- The Obsidian API doesn't offer the events needed to safely automate this operation: Editor changes won't work (see previous point), file changes won't work (Obsidian saves the file periodically, so this would change the document "under your fingers" while writing). Hopefully, this will change in the future. Would be nice to have!
+
+### Force line breaks in multiple documents
+
+Another command that lets you force hard breaks not only in the current document, but in a selectable set of documents (a whole folder, the entire vault, etc.). This might very well be added in the future. 
 
 
 ## Development
@@ -128,4 +139,11 @@ For testing it, the `main.js` and the `manifest.json` have to be placed in a `.o
 
 ## Acknowledgements
 
-Thanks to [THeK3nger](https://github.com/THeK3nger) for the nice [project template](https://github.com/THeK3nger/obsidian-plugin-template). It made things easier.
+This plugin is based on the following projects:
+
+- [remark](https://github.com/remarkjs/remark)
+- [remark-gfm](https://github.com/remarkjs/remark-gfm)
+- [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter)
+- [remark-breaks](https://github.com/remarkjs/remark-breaks)
+
+Also, thanks to [THeK3nger](https://github.com/THeK3nger) for the nice [Obsidian plugin project template](https://github.com/THeK3nger/obsidian-plugin-template). It made things easier.
