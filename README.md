@@ -8,7 +8,7 @@ A plugin for [Obsidian](https://obsidian.md/) that adds an editor command to for
 - [Why force hard line breaks?](#why-force-hard-line-breaks)
 - [Installation](#installation)
 - [Thoughts on possible additional features](#thoughts-on-possible-additional-features)
-  - [Automatic on-the-fly hard breaks](#automatic-on-the-fly-hard-breaks)
+  - [Automatic hard breaks while writing](#automatic-hard-breaks-while-writing)
   - [Force line breaks in multiple documents](#force-line-breaks-in-multiple-documents)
 - [Development](#development)
 - [Acknowledgements](#acknowledgements)
@@ -106,7 +106,7 @@ There are two ways:
 
 ## Thoughts on possible additional features
 
-### Automatic on-the-fly hard breaks
+### Automatic hard breaks while writing
 
 The very first version of this plugin had a feature to automatically replace soft line breaks with hard line breaks while writing in the editor. This feature, although it was a nice idea, was removed due to the following reasons:
 
