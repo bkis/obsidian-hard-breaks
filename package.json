@@ -1,7 +1,7 @@
 {
   "name": "hard-breaks",
   "author": "bkis",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Turn soft line breaks in Markdown into hard line breaks automatically",
   "main": "main.js",
   "scripts": {
