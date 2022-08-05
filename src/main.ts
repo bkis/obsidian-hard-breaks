@@ -1,11 +1,11 @@
 import { App, Editor, MarkdownView, Plugin, PluginSettingTab, Setting } from 'obsidian';
-import {remark} from 'remark'
-import remarkBreaks from 'remark-breaks'
-import remarkFrontmatter from 'remark-frontmatter'
-import remarkGfm from 'remark-gfm'
+import {remark} from 'remark';
+import remarkBreaks from 'remark-breaks';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkGfm from 'remark-gfm';
 
 interface HardBreaksPluginSettings {
-  hardBreakFormat: string
+  hardBreakFormat: string;
 }
 
 const DEFAULT_SETTINGS: HardBreaksPluginSettings = {
@@ -17,16 +17,16 @@ const DEFAULT_SETTINGS: HardBreaksPluginSettings = {
  */
 export default class HardBreaksPlugin extends Plugin {
 
-  settings: HardBreaksPluginSettings
+  settings: HardBreaksPluginSettings;
 
   async onload() {
     // console.log('hard-breaks plugin loading...')
 
     // load pluging settings
-    await this.loadSettings()
+    await this.loadSettings();
 
     // add settings tab to Obsidian settings panel
-    this.addSettingTab(new HardBreaksPluginSettingsTab(this.app, this))
+    this.addSettingTab(new HardBreaksPluginSettingsTab(this.app, this));
 
 		// add command to replace all soft breaks in the current document with hard breaks
 		this.addCommand({
@@ -34,7 +34,7 @@ export default class HardBreaksPlugin extends Plugin {
 			name: 'Force hard line breaks in current document',
 			editorCallback: (editor: Editor, view: MarkdownView) => {
         this.replaceBreaks(editor.getValue())
-          .then(content => editor.setValue(content))
+          .then(content => editor.setValue(content));
 			}
 		})
 
@@ -49,7 +49,7 @@ export default class HardBreaksPlugin extends Plugin {
         .then((doc) =>
           doc.value.toString()
           .replace(/\\$/gm, this.settings.hardBreakFormat)
-        )
+        );
   }
 
   async loadSettings() {
@@ -66,17 +66,18 @@ export default class HardBreaksPlugin extends Plugin {
  * Class representing plugin settings tab
  */
 class HardBreaksPluginSettingsTab extends PluginSettingTab {
-  plugin: HardBreaksPlugin
+
+  plugin: HardBreaksPlugin;
 
   constructor(app: App, plugin: HardBreaksPlugin) {
-    super(app, plugin)
-    this.plugin = plugin
+    super(app, plugin);
+    this.plugin = plugin;
   }
 
   display(): void {
     const { containerEl } = this;
     const commandHint = 'Hint: This plugin adds a command to force hard line breaks ' +
-                        'in the current document!'
+                        'in the current document!';
     containerEl.empty();
     containerEl.createEl('h3', {text: 'Hard Breaks'});
     containerEl.createEl('small', {text: commandHint});
@@ -88,15 +89,15 @@ class HardBreaksPluginSettingsTab extends PluginSettingTab {
       .setName('Hard Line Break Format')
       .setDesc('The type of Markdown notation to use for hard line breaks')
       .addDropdown((dd) => {
-        dd.addOption('  ', 'Double Whitespace')
-        dd.addOption('\\', 'Backslash')
-        dd.setValue(settings.hardBreakFormat)
+        dd.addOption('  ', 'Double Whitespace');
+        dd.addOption('\\', 'Backslash');
+        dd.setValue(settings.hardBreakFormat);
         dd.onChange(async (value: string) => {
           settings.hardBreakFormat = value
           await this.plugin.saveSettings()
-        })
+        });
       }
-    )
+    );
 
   }
 }
