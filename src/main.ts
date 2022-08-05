@@ -74,11 +74,15 @@ class HardBreaksPluginSettingsTab extends PluginSettingTab {
 
   display(): void {
     const { containerEl } = this;
-    const commandHint = 'Hint: This plugin adds a command to force hard line breaks ' +
-                        'in the current document!';
     containerEl.empty();
-    containerEl.createEl('h3', {text: 'Hard Breaks'});
-    containerEl.createEl('small', {text: commandHint});
+    containerEl.createEl(
+      'h3',
+      {text: 'Hard Breaks'}
+    );
+    containerEl.createEl(
+      'small',
+      {text: 'Hint: Access this plugin\'s command via the editor\'s command palette.'}
+    );
 
     const settings = this.plugin.settings;
     
