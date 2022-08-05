@@ -5,7 +5,7 @@ import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
 
 interface HardBreaksPluginSettings {
-  hardBreakFormat: string;
+  hardBreakFormat: '  ' | '\\';
 }
 
 const DEFAULT_SETTINGS: HardBreaksPluginSettings = {
@@ -20,8 +20,6 @@ export default class HardBreaksPlugin extends Plugin {
   settings: HardBreaksPluginSettings;
 
   async onload() {
-    // console.log('hard-breaks plugin loading...')
-
     // load pluging settings
     await this.loadSettings();
 
@@ -88,16 +86,17 @@ class HardBreaksPluginSettingsTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName('Hard Line Break Format')
       .setDesc('The type of Markdown notation to use for hard line breaks')
-      .addDropdown((dd) => {
-        dd.addOption('  ', 'Double Whitespace');
-        dd.addOption('\\', 'Backslash');
-        dd.setValue(settings.hardBreakFormat);
-        dd.onChange(async (value: string) => {
-          settings.hardBreakFormat = value
-          await this.plugin.saveSettings()
-        });
-      }
-    );
-
+      .addDropdown(dropdown => dropdown
+        .addOptions({
+          '  ': 'Double Whitespace',
+          '\\': 'Backslash'
+        })
+        .setValue(settings.hardBreakFormat)
+        .onChange(async (value: HardBreaksPluginSettings["hardBreakFormat"]) => {
+          settings.hardBreakFormat = value;
+          await this.plugin.saveSettings();
+        })
+      );
   }
+
 }
