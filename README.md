@@ -1,6 +1,6 @@
 # Obsidian Hard Breaks Plugin <!-- omit in toc -->
 
-A plugin for [Obsidian](https://obsidian.md/) that adds an editor command to force [*hard* line breaks](https://spec.commonmark.org/0.17/#hard-line-breaks) (in contrast to [*soft* line breaks](https://spec.commonmark.org/0.17/#soft-line-breaks)) in the currently opened document. Hard line breaks are forces **only in paragraphs of text and blockquotes**! The plugin will not touch text in tables, links, lists, etc.
+A plugin for [Obsidian](https://obsidian.md/) that adds an editor command to force [*hard* line breaks](https://spec.commonmark.org/0.17/#hard-line-breaks) (in contrast to [*soft* line breaks](https://spec.commonmark.org/0.17/#soft-line-breaks)) in the currently opened document. Hard line breaks are forced **only in paragraphs of text and blockquotes**! The plugin will not touch text in tables, links, lists, etc.
 
 Obsidian Hard Breaks Plugin makes use of [a set of robust Open-Source Markown parsing tools](#acknowledgements) to guarantee it does what it's supposed to do.
 
