@@ -1,8 +1,14 @@
 import { App, Editor, MarkdownView, Plugin, PluginSettingTab, Setting } from 'obsidian';
-import {remark} from 'remark';
-import remarkBreaks from 'remark-breaks';
+import {unified} from 'unified';
+import {selectAll} from 'unist-util-select';
+import remarkParse from 'remark-parse'
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+
+const selectNodes = selectAll;
+
+const range = (start: number, stop: number, step: number = 1) =>
+  Array(Math.ceil((stop - start) / step)).fill(start).map((x, y) => x + y * step);
 
 interface HardBreaksPluginSettings {
   hardBreakFormat: '  ' | '\\';
@@ -31,23 +37,51 @@ export default class HardBreaksPlugin extends Plugin {
 			id: 'replace-all-soft-breaks',
 			name: 'Force hard line breaks in current document',
 			editorCallback: (editor: Editor, view: MarkdownView) => {
-        this.replaceBreaks(editor.getValue())
-          .then(content => editor.setValue(content));
+        this.forceHardBreaks(editor);
 			}
 		})
 
   }
 
-  async replaceBreaks(input: string): Promise<string> {
-    return await remark()
+  forceHardBreaks(editor: Editor){
+    /**
+     * It would be much more elegant (and easy!) to use Obsidian editor's replaceRange()
+     * function to replace each range that represents a target text node, but that'd
+     * result in multiple editor changes. So if the user wanted to undo what the command
+     * did, they'd have to undo a change for every text node we inserted hard breaks
+     * into. The solution below is more clunky (and probably more costly), but only
+     * created a single change event.
+     * A better solution has yet to be found...
+     */
+    let text = editor.getValue();
+    this.getTextRanges(text).forEach(range => {
+      const replacement = text
+        .substring(range.from + this.settings.hardBreakFormat.length, range.to)
+        .replace(
+          /[ \t]*(?=\r\n|\r|\n)/gm,
+          this.settings.hardBreakFormat
+        );
+      text = text.substring(0, range.from + this.settings.hardBreakFormat.length)
+        + replacement
+        + text.substring(range.to);
+    });
+    editor.setValue(text);
+  }
+
+  getTextRanges(md: string){
+    return selectNodes(
+      'root > paragraph > text, root > blockquote > paragraph > text',
+      unified()
+        .use(remarkParse)
         .use(remarkFrontmatter, ['yaml'])
         .use(remarkGfm)
-        .use(remarkBreaks)
-        .process(input)
-        .then((doc) =>
-          doc.value.toString()
-          .replace(/\\$/gm, this.settings.hardBreakFormat)
-        );
+        .parse(md)
+    )
+    .filter(n => n.position.start.line < n.position.end.line)
+    .map(n => ({
+      'from': n.position.start.offset,
+      'to': n.position.end.offset
+    }))
   }
 
   async loadSettings() {

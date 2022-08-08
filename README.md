@@ -1,6 +1,8 @@
 # Obsidian Hard Breaks Plugin <!-- omit in toc -->
 
-A plugin for [Obsidian](https://obsidian.md/) that adds an editor command to force [*hard* line breaks](https://spec.commonmark.org/0.17/#hard-line-breaks) (in contrast to [*soft* line breaks](https://spec.commonmark.org/0.17/#soft-line-breaks)) in the currently opened document. It makes use of [a set of robust Open-Source Markown parsing tools](#acknowledgements) to guarantee it does what it's supposed to do.
+A plugin for [Obsidian](https://obsidian.md/) that adds an editor command to force [*hard* line breaks](https://spec.commonmark.org/0.17/#hard-line-breaks) (in contrast to [*soft* line breaks](https://spec.commonmark.org/0.17/#soft-line-breaks)) in the currently opened document. Hard line breaks are forces **only in paragraphs of text and blockquotes**! The plugin will not touch text in tables, links, lists, etc.
+
+Obsidian Hard Breaks Plugin makes use of [a set of robust Open-Source Markown parsing tools](#acknowledgements) to guarantee it does what it's supposed to do.
 
 - [Features](#features)
 - [Do I need this plugin?](#do-i-need-this-plugin)
@@ -142,8 +144,9 @@ For testing it, the `main.js` and the `manifest.json` have to be placed in a `.o
 This plugin is based on the following projects:
 
 - [remark](https://github.com/remarkjs/remark)
+- [unified](https://github.com/unifiedjs/unified)
+- [unist-util-select](https://github.com/syntax-tree/unist-util-select)
 - [remark-gfm](https://github.com/remarkjs/remark-gfm)
 - [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter)
-- [remark-breaks](https://github.com/remarkjs/remark-breaks)
 
 Also, thanks to [THeK3nger](https://github.com/THeK3nger) for the nice [Obsidian plugin project template](https://github.com/THeK3nger/obsidian-plugin-template). It made things easier.
