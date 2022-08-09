@@ -20,7 +20,7 @@ Obsidian Hard Breaks Plugin makes use of [a set of robust Open-Source Markown pa
 
 This plugin gives you ...
 
-1) ... an editor command that replaces all line breaks in the current document with *hard* line breaks (**only in paragraphs of text**, never in code blocks, front matter, etc.).
+1) ... an editor command that replaces all line breaks in the current document with *hard* line breaks (**only in paragraphs of text and blockquotes**, never in code blocks, front matter, etc.).
 2) ... an option in the settings to choose the format for the hard line breaks to use (`  ` or `\`).
 
 > ℹ️ The formats for *hard* line breaks are specified in the [CommonMark specification](https://spec.commonmark.org/0.17/#hard-line-breaks). It allows two whitespaces or a backslash at the end of a line. While the backslash is more visible in the Markdown source, it's less common and somewhat clutters your text. But it's a matter of taste...
@@ -79,11 +79,11 @@ This will be parsed to:
 
 ## Why force hard line breaks?
 
-Why should one use *soft* line breaks at all? They don't make any difference in how the document is parsed/rendered. There is only one reason to use them (prove me wrong!): Manually wrapping paragraphs in Markdown source text. This *might* be desirable in an environment where long lines aren't wrapped automatically (e.g. in a shell) or where the editor is so wide that the long lines become hard to read.
+Why should one use *soft* line breaks at all? They don't make any difference in how the document is parsed/rendered. There is only one reason to use them (prove me wrong!): Manually wrapping paragraphs in Markdown source text. This *might* be desirable in an environment where long lines in the text flow aren't wrapped automatically (e.g. in a shell) or where the editor is so wide that the long lines become hard to read.
 
 But Obsidian is **not** such an environment. It wraps text. The editor has a nice, reduced width. **There is no need for soft line breaks in Obsidian.**
 
-Obsidian has a setting called "Strict line breaks". If you turn it off, Obsidian stops distinguishing *soft* and *hard* line breaks in "Reading" mode and displays anything as a *hard* line break. That's a nice feature for its convenience, but it's also a false view on your document as it doesn't follow the Markdown specification. Try giving the Haiku you wrote in Obsidian without using *hard* line breaks ...
+Obsidian has a setting called "Strict line breaks". If you turn it off, Obsidian stops distinguishing *soft* and *hard* line breaks in "Reading" mode and displays anything as a *hard* line break. That's a nice feature for its convenience, but it's also a false view on your document as it doesn't follow the Markdown specification. Try giving the Haiku you wrote in Obsidian *without* using *hard* line breaks ...
 
 ```md
 An ancient pond!
@@ -95,7 +95,7 @@ Of the frog as it plunges in.
 
 > An ancient pond! With a sound from the water Of the frog as it plunges in.
 
-You need hard line breaks to write actual Markdown in such cases. If you want a line break inside of a paragraph in Markdown, you have to use a *hard* line break. Otherwise your document isn't really portable to other Markdown platforms. But remembering to type two whitespaces at the end of a line just to get a line break isn't fun. Especially if you *never need soft line breaks* anyway.
+You need hard line breaks in yout text to write actual Markdown in such cases. If you want a line break inside of a paragraph in Markdown, you have to use a *hard* line break. Otherwise your document isn't really portable to other Markdown platforms. But having to type two whitespaces  (or a backslash) at the end of a line just to get a line break isn't ideal. Especially if you *never need soft line breaks* in flowing text anyway.
 
 
 ## Installation
