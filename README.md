@@ -102,7 +102,7 @@ You need hard line breaks in yout text to write actual Markdown in such cases. I
 
 There are two ways:
 
-- Using [Obsidians community plugin browser](https://obsidian.md/plugins) (recommended!)
+- Using [Obsidians community plugin browser](https://obsidian.md/plugins?id=hard-breaks) (recommended!)
 - Installing the plugin manually (why though?): Unpack the downloaded archive file into Obsidians plugin directory. Warning: You won't get automatic updates this way!
 
 
