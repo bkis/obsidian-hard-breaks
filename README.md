@@ -1,5 +1,7 @@
 # Obsidian Hard Breaks Plugin <!-- omit in toc -->
 
+> ✅ Tested to work with the new major version (1.0) of Obsidian!
+
 A plugin for [Obsidian](https://obsidian.md/) that adds an editor command to force [*hard* line breaks](https://spec.commonmark.org/0.17/#hard-line-breaks) (in contrast to [*soft* line breaks](https://spec.commonmark.org/0.17/#soft-line-breaks)) in the currently opened document. Hard line breaks are forced **only in paragraphs of text and blockquotes**! The plugin will not touch text in tables, links, lists, etc.
 
 Obsidian Hard Breaks Plugin makes use of [a set of robust Open-Source Markown parsing tools](#acknowledgements) to guarantee it does what it's supposed to do.
@@ -64,7 +66,7 @@ bar</p>
 For a common text flow with paragraphs, this is fine. But sometimes you need a line break without breaking the whole paragraph. This is what [*hard line breaks*](https://spec.commonmark.org/0.17/#hard-line-breaks) are for. In Markdown, *hard* line breaks are line breaks that are preceded by two whitespace characters (`  `). See this example (select the text to see the whitespaces):
 
 ```md
-foo  
+foo
 bar
 ```
 
@@ -117,7 +119,7 @@ The very first version of this plugin had a feature to automatically replace sof
 
 ### Force line breaks in multiple documents
 
-Another command that lets you force hard breaks not only in the current document, but in a selectable set of documents (a whole folder, the entire vault, etc.). This might very well be added in the future. 
+Another command that lets you force hard breaks not only in the current document, but in a selectable set of documents (a whole folder, the entire vault, etc.). This might very well be added in the future.
 
 
 ## Development
